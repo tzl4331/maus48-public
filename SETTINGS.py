@@ -70,24 +70,23 @@ def IsSaveValid():
 
 def loadUserSettings():
     global Configured_sampling_method, Configured_looping_method, Configured_playkey_temp, Configured_recordkey_temp, Configured_antiban
+    try:
+        if IsSaveValid():
+            openCheck = open("settings.48", "r")
     
-    if IsSaveValid():
-        openCheck = open("settings.48", "r")
- 
-        SettingsFIRSTLINE = openCheck.readline()
-        (samplingS, loopingS, playkeyS, recordkeyS, antibanS) = SettingsFIRSTLINE.split(' ')
+            SettingsFIRSTLINE = openCheck.readline()
+            (samplingS, loopingS, playkeyS, recordkeyS, antibanS) = SettingsFIRSTLINE.split(' ')
 
-        openCheck.seek(0)
-        openCheck.close()
+            openCheck.seek(0)
+            openCheck.close()
 
-        Configured_sampling_method = samplingS
-        Configured_looping_method = loopingS
-        Configured_playkey_temp = playkeyS
-        Configured_recordkey_temp = recordkeyS
-        Configured_antiban = antibanS
-        print('Everything should have loaded well.')
-
-    else:
+            Configured_sampling_method = samplingS
+            Configured_looping_method = loopingS
+            Configured_playkey_temp = playkeyS
+            Configured_recordkey_temp = recordkeyS
+            Configured_antiban = antibanS
+            print('Everything should have loaded well.')
+    except:
         print('Save was not valid. We gonna roll with the defaults.')
         resettingDefaults()
 
@@ -105,7 +104,7 @@ def loadUserSettings():
         Configured_recordkey_temp = recordkeyS
         Configured_antiban = antibanS
 
-        tk.messagebox.showwarning("User Settings Generation", "Your settings are missing or invalid. Default settings are applied.\n\nIf this is your first time launching, please dismiss this message\n")
+        tk.messagebox.showwarning("User Settings Generation", "You don't seem to have any settings yet, either they're missing or invalid. Default settings will be applied.\n\nIf this is your first launch, please disregard this message\n")
         print("Default settings were applied.")
     
     #Need to somehow REFRESH the hotkeys.
@@ -135,7 +134,7 @@ def loopingPlaybacks():
     if Configured_looping_method == "Single" or Configured_looping_method == "Custom":
         return 1
     elif Configured_looping_method == "Infinite":
-        return 99999
+        return 999999
     else:
         return 1
 

@@ -17,9 +17,9 @@ from pynput.keyboard import Key
 from pynput.keyboard import Listener as KeyboardListener
 
 root=tk.Tk()
-root.geometry('380x150')
+root.geometry('380x170')
 root.attributes("-topmost", True)
-root.title('maus48 remastered 6.0')
+root.title('maus48 v7.0')
 
 SETTINGS.loadUserSettings()
 
@@ -59,6 +59,7 @@ def playButton():
         button_save["state"]="disabled"
         button_load["state"]="disabled"
         button_play["state"]="disabled"
+        button_settings["state"]="disabled"
 
 
         confirm_play = True
@@ -80,6 +81,7 @@ def playButton():
         button_save["state"]="normal"
         button_load["state"]="normal"
         button_play["state"]="normal"
+        button_settings["state"]="normal"
         info2["text"]="Loaded File = {0}".format(os.path.basename(fileLoader.currentFilename))
 
 
@@ -101,6 +103,7 @@ def recordButton():
         button_save["state"]="disabled"
         button_load["state"]="disabled"
         button_play["state"]="disabled"
+        button_settings["state"]="disabled"
 
         button_record["text"]="SCRL CLICK"
         info2["text"]="Recording in progress..."
@@ -155,6 +158,7 @@ def recordButton():
         button_save["state"]="normal"
         button_load["state"]="normal"
         button_play["state"]="normal"
+        button_settings["state"]="normal"
 
         button_record["text"]="Record"
         info2["text"]="Temporary Save = {0} ({1})".format(fileLoader.currentFilename, StoredDuration)
@@ -237,11 +241,11 @@ def settingsButton():
     def singleButton():
         button_single["state"]="disabled"
         button_infinite["state"]="normal"
-        button_custom["state"]="normal"
+        #button_custom["state"]="normal"
 
         button_single["text"]="[Single]"
         button_infinite["text"]="Infinite"
-        button_custom["text"]="Custom"
+        #button_custom["text"]="Custom"
         SETTINGS.User_looping_method = "Single"
 
         button_apply["text"]="Save and apply changes"
@@ -250,11 +254,11 @@ def settingsButton():
     def infiniteButton():
         button_single["state"]="normal"
         button_infinite["state"]="disabled"
-        button_custom["state"]="normal"
+        #button_custom["state"]="normal"
 
         button_single["text"]="Single"
         button_infinite["text"]="[Infinite]"
-        button_custom["text"]="Custom"
+        #button_custom["text"]="Custom"
         SETTINGS.User_looping_method = "Infinite"
 
         button_apply["text"]="Save and apply changes"
@@ -263,11 +267,11 @@ def settingsButton():
     def customButton():
         button_single["state"]="normal"
         button_infinite["state"]="normal"
-        button_custom["state"]="disabled"
+        #button_custom["state"]="disabled"
 
         button_single["text"]="Single"
         button_infinite["text"]="Infinite"
-        button_custom["text"]="[Custom]"
+        #button_custom["text"]="[Custom]"
         SETTINGS.User_looping_method = "Custom"
 
         button_apply["text"]="Save and apply changes"
@@ -309,8 +313,8 @@ def settingsButton():
     #Window Frame 1
     WinFrame1Labels = tk.Frame(WinFrame1)
     WinFrame1Labels.pack(side=tk.TOP)
-    Samplinglabel = ttk.Label(WinFrame1Labels, text="Sampling Method", style='Bold.TLabel', anchor='w').pack(side=tk.LEFT, padx=15)
-    SamplingDescription = ttk.Label(WinFrame1Labels, text="This controls how frequently your cursor movements are logged.\nFidelity:  Prioritises cursor positioning - captures each pixel movement. Makes cursor appear smooth on monitor.\nEfficiency:  Prioritises timings - captures cursor periodically. Preserves timings between clicks. Cursor may appear choppy.\nHybrid:  Both prioritised equally. Best of both worlds, recommeded for most use cases. ").pack(side=tk.BOTTOM)
+    Samplinglabel = ttk.Label(WinFrame1Labels, text="Sampling Method", style='Bold.TLabel', anchor='w').pack(side=tk.LEFT, padx=(5,15))
+    SamplingDescription = ttk.Label(WinFrame1Labels, text="This controls how frequently cursor movements are logged.\nFidelity:  Prioritises cursor movements - captures ALMOST ALL pixel changes. Makes cursor appear smooth on monitor \nEfficiency:  Prioritises timings - captures cursor periodically. Preserves timings between clicks. Cursor may appear choppy   \nHybrid:  Default option. Both prioritised equally. Recommended for most use cases ",).pack(side=tk.BOTTOM)
 
     button_fidelity= ttk.Button(WinFrame2, text="Fidelity", width=10, command=fidelityButton, style='my.TButton' )
     button_fidelity.pack(side=tk.LEFT, padx=8, ipady=20)
@@ -330,9 +334,9 @@ def settingsButton():
 
     WinFrame3Labels = tk.Frame(WinFrame3)
     WinFrame3Labels.pack(side=tk.TOP)
-    LoopLabel = ttk.Label(WinFrame3Labels, text="Playback Looping", style='Bold.TLabel', anchor='w').pack(side=tk.LEFT, padx=15)
+    LoopLabel = ttk.Label(WinFrame3Labels, text="Playback Looping", style='Bold.TLabel', anchor='w').pack(side=tk.LEFT, padx=(5,15))
     
-    LoopDescription = ttk.Label(WinFrame3Labels, text="This controls playback loops and repeats.                                                                                                                                             \nSingle:  Plays the loaded script once\nInfinite:  Plays the loaded script until the Stop Hotkey is pressed\nCustom:  Repeats n times or until Stop Hotkey pressed ").pack(side=tk.BOTTOM, fill=tk.X)
+    LoopDescription = ttk.Label(WinFrame3Labels, text="This controls playback loops and repeats.                                                                                                                                                \nSingle:  Plays the loaded script once\nInfinite:  Plays the loaded script until the Stop Hotkey is pressed\n",).pack(side=tk.BOTTOM, fill=tk.X)
 
     button_single= ttk.Button(WinFrame4, text="Single", width=10, command=singleButton, style='my.TButton' )
     button_single.pack(side=tk.LEFT, padx=8, ipady=20)
@@ -340,8 +344,8 @@ def settingsButton():
     button_infinite = ttk.Button(WinFrame4, text='Infinite', width=10, command=infiniteButton, style='my.TButton' )
     button_infinite.pack(side=tk.LEFT, padx=8, ipady=20)
 
-    button_custom = ttk.Button(WinFrame4, text="Custom", width=10, command=customButton, style='my.TButton' )
-    button_custom.pack(side=tk.RIGHT, padx=8, ipady=20)
+    #button_custom = ttk.Button(WinFrame4, text="Custom", width=10, command=customButton, style='my.TButton' )
+    #button_custom.pack(side=tk.RIGHT, padx=8, ipady=20)
 
 
 
@@ -354,9 +358,9 @@ def settingsButton():
 
     WinFrame5Labels = tk.Frame(WinFrame5)
     WinFrame5Labels.pack(side=tk.TOP)
-    HKLabel = ttk.Label(WinFrame5Labels, text="Hotkey Preferences", style='Bold.TLabel', anchor='w').pack(side=tk.LEFT, padx=15)
+    HKLabel = ttk.Label(WinFrame5Labels, text="Hotkey Preferences", style='Bold.TLabel', anchor='w').pack(side=tk.LEFT, padx=(5,15))
     
-    HKDescription = ttk.Label(WinFrame5Labels, text="\nThis controls user hotkey preferences.                                                                                                                                                       \nNote: The playback hotkey cannot be the recording hotkey").pack(side=tk.BOTTOM, fill=tk.X)
+    HKDescription = ttk.Label(WinFrame5Labels, text="\nThis controls user hotkey preferences.                                                                                                                                                          \nNote: The playback hotkey cannot be the recording hotkey").pack(side=tk.BOTTOM, fill=tk.X)
 
     #PlayHotkey Menu
     def changePlayHotkey(PHKResult):
@@ -407,7 +411,7 @@ def settingsButton():
 
     WinFrame7Labels = tk.Frame(WinFrame7)
     WinFrame7Labels.pack(side=tk.TOP)
-    LoopLabel = ttk.Label(WinFrame7Labels, text="OSRS Anti-ban Mode", style='Bold.TLabel', anchor='w').pack(side=tk.LEFT, padx=15)
+    LoopLabel = ttk.Label(WinFrame7Labels, text="OSRS Anti-ban Mode", style='Bold.TLabel').pack(side=tk.LEFT, padx=(5,15))
     
     LoopDescription = ttk.Label(WinFrame7Labels, text="This enables more game anti-ban features                                                                                                                                                      \nTime Randomize:  A varying small delay is added on top of the existing recording delays\nThis means even when looping infinitely there will never be an identical timing pattern").pack(side=tk.BOTTOM, fill=tk.X)
 
@@ -532,7 +536,7 @@ def ACTIVATEEVERYTHING():
 
 
 #UI: Title, greeting
-greeting = tk.Label(Frame1, text="maus 48 v6.0")
+greeting = tk.Label(Frame1, text="maus 48 v7.0")
 greeting.config(font=("Segoe UI", 15))
 greeting.pack()
 
@@ -543,23 +547,23 @@ s.configure('my.TButton', font=('Segoe UI', 10, 'bold'))
 s.theme_use()
 
 #UI: Buttons
-button_play = ttk.Button(Frame1, text="Play", width=10, command=playButton, style='my.TButton' , )
-button_play.pack(side=tk.LEFT, padx=5, ipady=20)
+button_play = ttk.Button(Frame1, text="Play", width=13, command=playButton, style='my.TButton' , )
+button_play.pack(side=tk.LEFT, padx=5, ipady=29)
 
 FrameInFrame = tk.Frame(Frame1)
 FrameInFrame.pack(side=tk.LEFT)
 
 button_save = ttk.Button(FrameInFrame, text='Save', width=15, command=saveButton, )
-button_save.pack(side=tk.TOP, padx=5, pady=2, ipady=2)
+button_save.pack(side=tk.TOP, padx=5, pady=2, ipady=0)
 
-button_settings = ttk.Button(Frame1, text='Settings', width=10, command=settingsButton, )
-button_settings.pack(side=tk.LEFT, padx=5, ipady=20)
+button_settings = ttk.Button(FrameInFrame, text='Settings', width=15, command=settingsButton, )
+button_settings.pack(side=tk.BOTTOM, padx=5, pady=2, ipady=0)
 
 button_load = ttk.Button(FrameInFrame, text='Load', width=15, command=loadButton, )
-button_load.pack(side=tk.TOP, padx=5, pady=3, ipady=2)
+button_load.pack(side=tk.TOP, padx=5, pady=3, ipady=0)
 
-button_record = ttk.Button(Frame1, text="Record", width=10, command=recordButton, style='my.TButton' )
-button_record.pack(side=tk.RIGHT, padx=5, ipady=20)
+button_record = ttk.Button(Frame1, text="Record", width=13, command=recordButton, style='my.TButton' )
+button_record.pack(side=tk.RIGHT, padx=5, ipady=29)
 
 #UI: Information Styles
 s1 = ttk.Style()
@@ -569,6 +573,10 @@ s1.theme_use()
 s2 = ttk.Style()
 s2.configure('Bold.TLabel', font=('Segoe UI', 10, 'bold'))
 s2.theme_use()
+
+sS = ttk.Style()
+sS.configure('my2.TLabel', font=('Segoe UI', 10,))
+sS.theme_use()
 
 #UI: Information
 info1 = ttk.Label(Frame2, text="Record = {}    |    Playback = {}".format(SETTINGS.Configured_recordkey_temp, SETTINGS.Configured_playkey_temp), style='my.TLabel')
