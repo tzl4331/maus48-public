@@ -6,6 +6,7 @@ import logging
 import time
 import threading
 from datetime import datetime
+import SETTINGS
 import fileLoader
 
 startTime=time.time()
@@ -35,7 +36,17 @@ def on_move(x, y):
         global counting
         counting+=1
         
-        if counting%10==0:
+        print(SETTINGS.Configured_sampling_method + 'bro this is shoudl be the settings that is grabbed')
+        if SETTINGS.Configured_sampling_method == "Fidelity":
+            divisor = 5
+        elif SETTINGS.Configured_sampling_method == "Efficiency":
+            divisor = 20
+        elif SETTINGS.Configured_sampling_method == "Hybrid":
+            divisor = 12
+        else:
+            print('NAH THIS DIDNT WORK WHAT THE FUCK BRO')
+
+        if counting%divisor==0:
             logging.info('{0} {1} {2} {3}'.format(x, y, 'CursorMovement', 'idle'))
 
 #This function determines what happens when the mouse is clicked
