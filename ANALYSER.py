@@ -19,7 +19,7 @@ def ANALYSE():
             if count > 1:
                 Delay = float(timestamp) - clickHistory[count - 1]['timestamp']
             else:
-                Delay = 0.5
+                Delay = 0
 
             #Adds a dictionary entry for each line in the Text File
             clickHistory[count] = {'delay':float(Delay), 'whichButton':buttonName, 'x':int(posx), 'y':int(posy), 'timestamp':float(timestamp), 'press':press, }
@@ -41,8 +41,7 @@ def ANALYSEVALID(userfile):
             if count > 1:
                 Delay = float(timestamp) - TEMPclickHistory[count - 1]['timestamp']
             else:
-                Delay = 0.5
-
+                Delay = 0
             #Adds a dictionary entry for each line in the Text File
             TEMPclickHistory[count] = {'delay':float(Delay), 'whichButton':buttonName, 'x':int(posx), 'y':int(posy), 'timestamp':float(timestamp), 'press':press, }
     return TEMPclickHistory

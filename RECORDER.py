@@ -8,6 +8,7 @@ import threading
 from datetime import datetime
 import SETTINGS
 import fileLoader
+import pyautogui
 
 startTime=time.time()
 isRecording = 0
@@ -25,29 +26,50 @@ def initLogging():
 #Every time the cursor moves counting goes up by 1. The logger only records every 20 intervals for practical purposes. This can be changed in the function on_move after the %.
 counting = 0
 HotkeyStopRec = 0
+justBegin = True
 
 #This function determines what happens when the mouse moves.
+
+'''
+def PermaRecord():
+    while not HotkeyStopRec == 1:
+        if HotkeyStopRec == 1:
+            break
+        x, y = pyautogui.position()
+        logging.info('{0} {1} {2} {3}'.format(x, y, 'CursorMovement', 'Priority'))
+        time.sleep(0.2)
+'''
+
+
+def on_move_simultaneousPYAUTOGUI(x, y):
+    if HotkeyStopRec == 1:
+        print('The function activated.')
+        return False
+
+
 
 def on_move(x, y):
     if HotkeyStopRec == 1:
         print('The function activated.')
         return False
     else:
-        global counting
+        global counting, justBegin
         counting+=1
         
-        print(SETTINGS.Configured_sampling_method + 'bro this is shoudl be the settings that is grabbed')
         if SETTINGS.Configured_sampling_method == "Fidelity":
             divisor = 5
         elif SETTINGS.Configured_sampling_method == "Efficiency":
-            divisor = 20
+            divisor = 25
         elif SETTINGS.Configured_sampling_method == "Hybrid":
-            divisor = 12
+            divisor = 14
         else:
             print('NAH THIS DIDNT WORK WHAT THE FUCK BRO')
 
-        if counting%divisor==0:
+        if counting%divisor ==0:
             logging.info('{0} {1} {2} {3}'.format(x, y, 'CursorMovement', 'idle'))
+        elif justBegin:
+            logging.info('{0} {1} {2} {3}'.format(x, y, 'CursorMovement', 'idle'))
+            justBegin = False
 
 #This function determines what happens when the mouse is clicked
 def on_click(x, y, button, pressed):
@@ -79,8 +101,6 @@ def runListener():
     global isRecording
     isRecording = 1
 
-
-                
     logging.basicConfig(filename='mouselogbeta.maus', filemode='w', level=logging.DEBUG, force=True, format='%(created)f %(message)s End')
     
     with Listener(on_click=on_click, on_move=on_move) as listener:

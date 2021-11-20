@@ -106,7 +106,7 @@ def recordButton():
         button_settings["state"]="disabled"
 
         button_record["text"]="SCRL CLICK"
-        info2["text"]="Recording in progress..."
+        info2["text"]="Recording in progress: 0:00:00"
 
         def Start():
             global StopwatchActivateStatus
@@ -120,9 +120,9 @@ def recordButton():
                 
                 countTo10 = 0
                 while StopwatchActivateStatus:
-                    time.sleep(0.05)
+                    time.sleep(0.1)
                     countTo10 +=1
-                    if countTo10 == 20:
+                    if countTo10 == 10:
                         countTo10 = 0
                         if StopwatchActivateStatus == False:
                             StoredDuration = "{0}:{1}:{2}".format(str(hours).zfill(1), str(minutes).zfill(2), str(seconds).zfill(2))
@@ -314,7 +314,7 @@ def settingsButton():
     WinFrame1Labels = tk.Frame(WinFrame1)
     WinFrame1Labels.pack(side=tk.TOP)
     Samplinglabel = ttk.Label(WinFrame1Labels, text="Sampling Method", style='Bold.TLabel', anchor='w').pack(side=tk.LEFT, padx=(5,15))
-    SamplingDescription = ttk.Label(WinFrame1Labels, text="This controls how frequently cursor movements are logged.\nFidelity:  Prioritises cursor movements - captures ALMOST ALL pixel changes. Makes cursor appear smooth on monitor \nEfficiency:  Prioritises timings - captures cursor periodically. Preserves timings between clicks. Cursor may appear choppy   \nHybrid:  Default option. Both prioritised equally. Recommended for most use cases ",).pack(side=tk.BOTTOM)
+    SamplingDescription = ttk.Label(WinFrame1Labels, text="This controls how frequently cursor movements are logged.\nFidelity:  Prioritises cursor movements - captures ALMOST ALL pixel changes. Makes cursor appear smooth on monitor \nEfficiency:  Prioritises timings - captures cursor periodically. Preserves timings between clicks. Cursor may appear choppy   \nHybrid:  Default option. Both prioritised equally. Recommended for most use cases \n",).pack(side=tk.BOTTOM)
 
     button_fidelity= ttk.Button(WinFrame2, text="Fidelity", width=10, command=fidelityButton, style='my.TButton' )
     button_fidelity.pack(side=tk.LEFT, padx=8, ipady=20)
@@ -608,10 +608,10 @@ def runListener():
     
     with mListener(on_click=RECORDER.on_click, on_move=RECORDER.on_move) as listener:
         listener.join()
-        time.sleep(0.2)
     
     RECORDER.changeFileAfterRecord()
     RECORDER.initLogging()
+    RECORDER.justBegin = True
 
     RECORDER.HotkeyStopRec = 0
 
