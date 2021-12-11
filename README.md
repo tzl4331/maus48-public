@@ -2,5 +2,5 @@
 
 <p>mouse recorder and playback</p>
 
-<p>recorded scripts can be saved, loaded, or viewed raw with text editing software</p>
+<p>click maus48 v7.0 exe and download</p>
 
