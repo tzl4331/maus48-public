@@ -1,4 +1,4 @@
-# maus48-mastered
+# maus48
 
 <h3>Mouse and Keyboard Recorder for Windows</h3>
 
